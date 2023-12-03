@@ -1,10 +1,12 @@
 package com.example.questapp1.services;
-
+import com.example.questapp1.requests.PostUpdateRequest;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.questapp1.entities.Post;
 import com.example.questapp1.repos.PostRepository;
@@ -30,6 +32,21 @@ public class PostService {
 
 	public Post createOnePost(Post newPost) {
 		return postRepository.save(newPost);
+	}
+	
+	public Post updateOnePostById(Long postId, PostUpdateRequest updatePost) {
+		Optional<Post> post = postRepository.findById(postId);
+		if(post.isPresent()) {
+			Post toUpdate = post.get();
+			toUpdate.setText(updatePost.getText());
+			toUpdate.setTitle(updatePost.getTitle());
+			postRepository.save(toUpdate);
+			return toUpdate;
+		}
+		return null;
+	}
+	public void deleteOnePost(Long postId) {
+	   postRepository.deleteById(postId);
 	}
 	
 

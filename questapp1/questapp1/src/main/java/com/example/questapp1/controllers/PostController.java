@@ -1,4 +1,5 @@
 package com.example.questapp1.controllers;
+import com.example.questapp1.requests.*;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.questapp1.entities.Post;
 import com.example.questapp1.services.PostService;
+
 
 
 @RestController
@@ -41,5 +43,15 @@ public class PostController {
 		return postService.createOnePost(newPost);
 	}
 	
+	@PutMapping ("/{postId}")
+	public Post updateOnePost(@PathVariable Long postId, @RequestBody PostUpdateRequest updatePost) {
+	    return postService.updateOnePostById(postId, updatePost);
+	}
+
+    // Silme işlemi için:
+    @DeleteMapping("/{postId}")
+    public void deleteOnePost(@PathVariable Long postId) {
+        postService.deleteOnePost(postId);
+    }
 
 }
